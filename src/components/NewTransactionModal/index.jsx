@@ -39,7 +39,8 @@ export function NewTransactionModal({ isOPen, onRequestClose }) {
       title: title,
       value: valueTransaction,
       category: category,
-      type: type
+      type: type,
+      date: new Date()
     }
     window.localStorage.setItem('transactions', JSON.stringify(date))
   }
