@@ -1,14 +1,9 @@
-import { useEffect, useState } from "react";
+import { useContext } from "react";
+import { TransactionsContext } from "../../TransactionsContext";
 import { Container } from "./styles";
 
 export function TransactionsTable() {
-  const [transactions, setTransactions] = useState([]);
-
-  useEffect(() => {
-    const data = localStorage.getItem("transactions");
-    console.log(data);
-    setTransactions([JSON.parse(data)]);
-  }, []);
+  const { transactions } = useContext(TransactionsContext);
 
   return (
     <Container>
@@ -23,9 +18,9 @@ export function TransactionsTable() {
           </tr>
         </thead>
         <tbody>
-          {transactions.map((transaction) => {
+          {transactions.map((transaction, index) => {
             return (
-              <tr key={transaction.id}>
+              <tr key={index}>
                 <td>{transaction.title}</td>
                 <td className={transaction.type}>
                   {new Intl.NumberFormat("pt-BR", {
@@ -35,9 +30,7 @@ export function TransactionsTable() {
                 </td>
                 <td>{transaction.category}</td>
                 <td>
-                  {new Intl.DateTimeFormat("pt-BR").format(
-                    new Date(transaction.date)
-                  )}
+                  {transaction.date}
                 </td>
                 <td>{transaction.type}</td>
               </tr>

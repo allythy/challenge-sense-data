@@ -1,11 +1,16 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import Modal from "react-modal";
 import closeImg from "../../assets/close.svg";
 import incomeImg from "../../assets/income.svg";
 import outcomeImg from "../../assets/outcome.svg";
+import { TransactionsContext } from "../../TransactionsContext";
 import { Container, TransactionTypeContainer, RadioBox } from "./styles";
+import { format } from 'date-fns'
+
 
 export function NewTransactionModal({ isOPen, onRequestClose }) {
+  const { createTransaction } = useContext(TransactionsContext);
+
   const [title, setTitle] = useState("");
   const [valueTransaction, setValueTransaction] = useState(0);
   const [category, setCategory] = useState("");
@@ -40,10 +45,15 @@ export function NewTransactionModal({ isOPen, onRequestClose }) {
       value: valueTransaction,
       category: category,
       type: type,
-      date: new Date()
+      date: format(new Date(), 'MM/dd/yyyy')
     }
-    window.localStorage.setItem('transactions', JSON.stringify(date))
+    createTransaction(date)
+    setTitle("")
+    setValueTransaction(0)
+    setCategory("")
+    onRequestClose();
   }
+
   return (
     <Modal
       isOpen={isOPen}
