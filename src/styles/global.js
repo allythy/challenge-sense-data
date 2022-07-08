@@ -49,6 +49,11 @@ export const GlobalStyle = createGlobalStyle`
     cursor: not-allowed;
   }
 
+  .container{
+    max-width: 1220px;
+    margin: 0 auto;
+    padding: 2.5rem 1rem;
+  }
   .react-modal-overlay{
     background: rgba(0, 0, 0, 0.5);
     position: fixed;
@@ -83,4 +88,10 @@ export const GlobalStyle = createGlobalStyle`
       filter: brightness(0.8);
     }
   }
+  @media (max-width: 375px){
+      .react-modal-contenct{
+        position: fixed;
+        bottom: 0;
+      }
+    }
 `;

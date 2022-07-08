@@ -25,10 +25,19 @@ export const Content = styled.div`
     &:hover {
       filter: brightness(0.9);
     }
+
+    @media (max-width: 320px) {
+      padding: 0 0.5rem;
+    }
   }
 `;
+
 export const Title = styled.span`
   font-size: 2rem;
   font-weight: 600;
   color: var(--shape);
+
+  @media (max-width: 375px) {
+    font-size: 1.8rem;
+  }
 `;
