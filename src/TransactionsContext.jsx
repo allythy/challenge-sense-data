@@ -19,8 +19,16 @@ export function TransactionsProvider({ children }) {
     localStorage.setItem("transactions", JSON.stringify(allTransactions));
   }
 
+  function deleteTransactions(id) {
+    const transactionremoved = transactions.filter((transactions) => transactions.id !== id)
+    setTransactions(
+      transactionremoved
+    );
+    localStorage.setItem("transactions", JSON.stringify(transactionremoved));
+  }
+
   return (
-    <TransactionsContext.Provider value={{ transactions, createTransaction }}>
+    <TransactionsContext.Provider value={{ transactions, createTransaction, deleteTransactions }}>
       {children}
     </TransactionsContext.Provider>
   );

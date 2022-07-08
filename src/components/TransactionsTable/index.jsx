@@ -3,7 +3,7 @@ import { TransactionsContext } from "../../TransactionsContext";
 import { Container } from "./styles";
 
 export function TransactionsTable() {
-  const { transactions } = useContext(TransactionsContext);
+  const { transactions, deleteTransactions } = useContext(TransactionsContext);
 
   return (
     <Container>
@@ -33,6 +33,11 @@ export function TransactionsTable() {
                   {transaction.date}
                 </td>
                 <td>{transaction.type}</td>
+                <td>
+                  <button onClick={() => deleteTransactions(transaction.id)}>
+                    {"Deletar"}
+                  </button>
+                </td>
               </tr>
             );
           })}
