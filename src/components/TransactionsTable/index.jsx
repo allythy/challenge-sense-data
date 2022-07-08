@@ -32,7 +32,7 @@ export function TransactionsTable() {
                 <td>
                   {transaction.date}
                 </td>
-                <td>{transaction.type}</td>
+                <td>{transaction.type === 'deposit'? 'Entrada' : 'Saída'}</td>
                 <td>
                   <button onClick={() => deleteTransactions(transaction.id)}>
                     {"Deletar"}
