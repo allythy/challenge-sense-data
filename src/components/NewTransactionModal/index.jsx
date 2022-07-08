@@ -1,12 +1,12 @@
 import { useContext } from "react";
 import Modal from "react-modal";
-import closeImg from "../../assets/close.svg";
 import { TransactionsContext } from "../../TransactionsContext";
 import { schema } from "../../services/schema";
 import { Container } from "./styles";
 import { format } from "date-fns";
 import { Formik, Field, ErrorMessage } from "formik";
 import { v4 as uuidv4 } from "uuid";
+import { FaRegWindowClose } from "react-icons/fa";
 
 export function NewTransactionModal({ isOPen, onRequestClose }) {
   const { createTransaction } = useContext(TransactionsContext);
@@ -32,7 +32,11 @@ export function NewTransactionModal({ isOPen, onRequestClose }) {
       className="react-modal-contenct"
     >
       <button type="submit" onClick={onRequestClose}>
-        <img src={closeImg} alt="Fechar modal" className="react-modal-close" />
+        <FaRegWindowClose
+          size={30}
+          alt="Fechar modal"
+          className="react-modal-close"
+        />
       </button>
       <Formik
         initialValues={{ title: "", value: 0, category: "", type: "" }}

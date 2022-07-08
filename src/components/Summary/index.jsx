@@ -1,9 +1,8 @@
 import { useContext } from "react";
 import { Container } from "./styles";
-import incomeImg from "../../assets/income.svg";
-import outcomeImg from "../../assets/outcome.svg";
-import total from "../../assets/total.svg";
 import { TransactionsContext } from "../../TransactionsContext";
+import { FaRegArrowAltCircleUp, FaRegArrowAltCircleDown, FaMoneyBillAlt} from "react-icons/fa";
+
 
 export function Summary() {
   const { transactions } = useContext(TransactionsContext);
@@ -31,7 +30,7 @@ export function Summary() {
       <article>
         <header>
           <p>Entrada</p>
-          <img src={incomeImg} alt="Entrada" />
+          <FaRegArrowAltCircleUp size={30} color='var(--green)' alt="Entrada"/>
         </header>
         <strong>
           {new Intl.NumberFormat("pt-BR", {
@@ -44,7 +43,7 @@ export function Summary() {
       <article>
         <header>
           <p>Saidas</p>
-          <img src={outcomeImg} alt="Saidas" />
+          <FaRegArrowAltCircleDown size={30} color='var(--red)' alt="Saída"/>
         </header>
         <strong>
           {new Intl.NumberFormat("pt-BR", {
@@ -57,7 +56,7 @@ export function Summary() {
       <article className="highlight-background">
         <header>
           <p>Total</p>
-          <img src={total} alt="Total" />
+          <FaMoneyBillAlt size={30} color='var(--shape)' alt="Total"/>
         </header>
         <strong>
           {new Intl.NumberFormat("pt-BR", {
