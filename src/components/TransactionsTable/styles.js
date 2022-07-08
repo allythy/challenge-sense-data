@@ -51,6 +51,7 @@ export const Container = styled.div`
       display: block;
       font-size: 0.8em;
       text-align: right;
+      font-size: 1rem;
 
       &:before {
         content: attr(data-label);
