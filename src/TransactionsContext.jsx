@@ -7,7 +7,6 @@ export function TransactionsProvider({ children }) {
 
   useEffect(() => {
     const data = localStorage.getItem("transactions");
-    console.log(data);
     if (data !== null) {
       setTransactions(JSON.parse(data));
     }

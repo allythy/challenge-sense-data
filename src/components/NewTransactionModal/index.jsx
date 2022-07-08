@@ -1,56 +1,26 @@
-import { useState, useContext } from "react";
+import { useContext } from "react";
 import Modal from "react-modal";
 import closeImg from "../../assets/close.svg";
-import incomeImg from "../../assets/income.svg";
-import outcomeImg from "../../assets/outcome.svg";
 import { TransactionsContext } from "../../TransactionsContext";
-import { Container, TransactionTypeContainer, RadioBox } from "./styles";
-import { format } from 'date-fns'
-
+import { schema } from "../../services/schema";
+import { Container } from "./styles";
+import { format } from "date-fns";
+import { Formik, Field, ErrorMessage } from "formik";
+import { v4 as uuidv4 } from "uuid";
 
 export function NewTransactionModal({ isOPen, onRequestClose }) {
   const { createTransaction } = useContext(TransactionsContext);
 
-  const [title, setTitle] = useState("");
-  const [valueTransaction, setValueTransaction] = useState(0);
-  const [category, setCategory] = useState("");
-  const [type, setType] = useState("deposit");
-
-  function handleChangeTitle(event){
-    setTitle(event.target.value);
-  }
-
-  function handleChangeValue(){
-    setValueTransaction(Number(event.target.value));
-  }
-
-  function handleChangeCategory(event){
-    setCategory(event.target.value);
-  }
-
-
-  function handleSetTypeDeposit() {
-    setType("deposit");
-  }
-
-  function handleSetTypeWithdraw() {
-    setType("withdraw");
-  }
-
-  function handleNewTransaction(event) {
-    event.preventDefault();
+  function handleNewTransaction(values) {
     const date = {
-      id: Math.round(Math.random() * 1000),
-      title: title,
-      value: valueTransaction,
-      category: category,
-      type: type,
-      date: format(new Date(), 'MM/dd/yyyy')
-    }
-    createTransaction(date)
-    setTitle("")
-    setValueTransaction(0)
-    setCategory("")
+      id: uuidv4(),
+      title: values.title,
+      value: values.value,
+      category: values.category,
+      type: values.type,
+      date: format(new Date(), "MM/dd/yyyy"),
+    };
+    createTransaction(date);
     onRequestClose();
   }
 
@@ -64,35 +34,58 @@ export function NewTransactionModal({ isOPen, onRequestClose }) {
       <button type="submit" onClick={onRequestClose}>
         <img src={closeImg} alt="Fechar modal" className="react-modal-close" />
       </button>
-      <Container onSubmit={handleNewTransaction}>
-        <h2>Cadastrar transação</h2>
-        <input placeholder="Titulo" value={title} onChange={handleChangeTitle}/>
-        <input type="number" placeholder="Valor" value={valueTransaction} onChange={handleChangeValue}/>
+      <Formik
+        initialValues={{ title: "", value: 0, category: "", type: "" }}
+        validationSchema={schema}
+        onSubmit={(values) => {
+          handleNewTransaction(values);
+        }}
+      >
+        {() => (
+          <Container>
+            <h2>Cadastrar transação</h2>
 
-        <TransactionTypeContainer>
-          <RadioBox
-            type="button"
-            onClick={handleSetTypeDeposit}
-            isActive={type === "deposit"}
-            activeColor="green"
-          >
-            <img src={incomeImg} alt="Entrada" />
-            <span>Entrada</span>
-          </RadioBox>
-          <RadioBox
-            type="button"
-            onClick={handleSetTypeWithdraw}
-            isActive={type === "withdraw"}
-            activeColor="red"
-          >
-            <img src={outcomeImg} alt="Saida" />
-            <span>Saida</span>
-          </RadioBox>
-        </TransactionTypeContainer>
+            <Field
+              name="title"
+              placeholder="Titulo"
+              alt="Nome do título da transação"
+            />
 
-        <input placeholder="Categoria" value={category} onChange={handleChangeCategory}/>
-        <button type="submit">Cadastrar</button>
-      </Container>
+            <ErrorMessage name="title" component="p" />
+
+            <Field
+              type="number"
+              name="value"
+              placeholder="Valor"
+              alt="Valor da transação"
+            />
+
+            <ErrorMessage name="value" component="p" />
+
+            <Field
+              as="select"
+              name="type"
+              alt="Selecione se transação é de entrada ou saída"
+            >
+              <option value="">Selecione o tipo</option>
+              <option value="deposit">Entrada</option>
+              <option value="withdraw">Saida</option>
+            </Field>
+
+            <ErrorMessage name="type" component="p" />
+
+            <Field
+              name="category"
+              placeholder="Categoria"
+              alt="Categoria da transação"
+            />
+
+            <ErrorMessage name="category" component="p" />
+
+            <button type="submit">Cadastrar</button>
+          </Container>
+        )}
+      </Formik>
     </Modal>
   );
 }
